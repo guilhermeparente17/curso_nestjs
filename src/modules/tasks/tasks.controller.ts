@@ -3,12 +3,15 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseUUIDPipe,
   Post,
   Put,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
+import { TaskDTO } from './tasks.dto';
 
 @Controller({
   version: '1',
@@ -25,7 +28,7 @@ export class TasksController {
   @Post()
   create(
     @Param('projectId', ParseUUIDPipe) projectId: string,
-    @Body() data: any,
+    @Body() data: TaskDTO,
   ) {
     return this.taskService.create(projectId, data);
   }
@@ -42,12 +45,13 @@ export class TasksController {
   update(
     @Param('projectId', ParseUUIDPipe) projectId: string,
     @Param('taskId', ParseUUIDPipe) taskId: string,
-    @Body() data: any,
+    @Body() data: TaskDTO,
   ) {
     return this.taskService.update(projectId, taskId, data);
   }
 
   @Delete(':taskId')
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(
     @Param('projectId', ParseUUIDPipe) projectId: string,
     @Param('taskId', ParseUUIDPipe) taskId: string,
