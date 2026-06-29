@@ -29,7 +29,6 @@ export class ProjectsController {
   @ApiResponse({
     type: [ProjectListItemDTO],
   })
-  @ValidateResourcesIds()
   findAll() {
     return this.projectsService.findAll();
   }
