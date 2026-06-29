@@ -48,7 +48,6 @@ export class ValidateResourcesIdsInterceptor implements NestInterceptor {
 
     // Validar TaskId se existir
     const taskId = request.params.taskId;
-    console.log(taskId);
 
     if (taskId) {
       const task = await this.prisma.task.findFirst({

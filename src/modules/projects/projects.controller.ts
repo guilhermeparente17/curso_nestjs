@@ -12,7 +12,11 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
-import { ProjectListItemDTO, ProjectRequestDTO } from './projects.dto';
+import {
+  ProjectFullDTO,
+  ProjectListItemDTO,
+  ProjectRequestDTO,
+} from './projects.dto';
 import { ApiResponse } from '@nestjs/swagger';
 import { ValidateResourcesIds } from 'src/common/decorators/validate-resources-ids.decorator';
 import { ValidateResourcesIdsInterceptor } from 'src/common/interceptors/validate-resources-ids.interceptor';
@@ -35,7 +39,7 @@ export class ProjectsController {
 
   @Get(':projectId')
   @ApiResponse({
-    type: ProjectListItemDTO,
+    type: ProjectFullDTO,
   })
   @ValidateResourcesIds()
   async findOne(@Param('projectId', ParseUUIDPipe) id: string) {
@@ -44,7 +48,7 @@ export class ProjectsController {
 
   @Post()
   @ApiResponse({
-    type: ProjectListItemDTO,
+    type: ProjectFullDTO,
   })
   create(@Body() data: ProjectRequestDTO) {
     return this.projectsService.create(data);
@@ -52,7 +56,7 @@ export class ProjectsController {
 
   @Put(':projectId')
   @ApiResponse({
-    type: ProjectListItemDTO,
+    type: ProjectFullDTO,
   })
   @ValidateResourcesIds()
   async update(
