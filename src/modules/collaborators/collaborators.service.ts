@@ -94,6 +94,8 @@ export class CollaboratorsService {
       throw new NotFoundException('Collaborator not found in this project');
     }
 
+    console.log(collaborator);
+
     if (collaborator.role === CollaboratorRole.OWNER) {
       throw new BadRequestException('The project owner cant be removed');
     }
