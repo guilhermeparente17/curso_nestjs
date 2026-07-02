@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ProjectRequestDTO } from './projects.dto';
 import { PrismaService } from 'src/prisma.service';
+import { CollaboratorRole } from '@prisma/client';
 
 @Injectable()
 export class ProjectsService {
@@ -35,10 +36,20 @@ export class ProjectsService {
     });
   }
 
-  create(data: ProjectRequestDTO) {
-    return this.prisma.project.create({
+  async create(data: ProjectRequestDTO) {
+    const project = await this.prisma.project.create({
       data,
     });
+
+    await this.prisma.projectCollaborator.create({
+      data: {
+        projectId: project.id,
+        userId: data.createdById,
+        role: CollaboratorRole.OWNER,
+      },
+    });
+
+    return project;
   }
 
   update(id: string, data: ProjectRequestDTO) {
