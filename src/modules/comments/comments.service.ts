@@ -1,10 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CommentRequestDto } from './comments.dto';
+import { RequestContextService } from 'src/common/services/request-context.service';
 
 @Injectable()
 export class CommentsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly requestContext: RequestContextService,
+  ) {}
 
   findAllByTask(taskId: string) {
     return this.prisma.comment.findMany({
@@ -49,11 +53,12 @@ export class CommentsService {
   }
 
   create(taskId: string, data: CommentRequestDto) {
+    const userId = this.requestContext.getUserId();
     return this.prisma.comment.create({
       data: {
         content: data.content,
         taskId,
-        authorId: 'c807d25e-fcc0-400a-804d-b66c2e03c0c3', // TODO - change user id
+        authorId: userId,
       },
       include: {
         author: {

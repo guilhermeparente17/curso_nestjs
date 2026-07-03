@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -25,12 +26,14 @@ import {
   UpdateCollaboratorDto,
 } from './collaborators.dto';
 import { CollaboratorsService } from './collaborators.service';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @Controller({
   version: '1',
   path: 'projects/:projectId/collaborators',
 })
 @UseInterceptors(ValidateResourcesIdsInterceptor)
+@UseGuards(JwtAuthGuard)
 export class CollaboratorsController {
   constructor(private readonly collaboratorService: CollaboratorsService) {}
 

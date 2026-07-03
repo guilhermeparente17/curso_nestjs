@@ -16,12 +16,6 @@ export class ProjectRequestDTO {
   })
   @IsString()
   description: string;
-
-  @ApiProperty({
-    description: 'Project user id',
-  })
-  @IsString()
-  createdById: string;
 }
 
 export class ProjectListItemDTO {

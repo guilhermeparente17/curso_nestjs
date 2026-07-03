@@ -8,10 +8,18 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CollaboratorsModule } from './modules/collaborators/collaborators.module';
 import { CommentsModule } from './modules/comments/comments.module';
+import { RequestContextService } from './common/services/request-context.service';
 
 @Module({
-  imports: [ProjectsModule, TasksModule, UsersModule, AuthModule, CollaboratorsModule, CommentsModule],
+  imports: [
+    ProjectsModule,
+    TasksModule,
+    UsersModule,
+    AuthModule,
+    CollaboratorsModule,
+    CommentsModule,
+  ],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppService, PrismaService, RequestContextService],
 })
 export class AppModule {}
