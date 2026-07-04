@@ -21,6 +21,7 @@ import {
 } from './user.dto';
 import { ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { RequestContextService } from 'src/common/services/request-context.service';
 
 @Controller({
   version: '1',

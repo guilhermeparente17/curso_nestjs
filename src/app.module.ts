@@ -9,6 +9,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CollaboratorsModule } from './modules/collaborators/collaborators.module';
 import { CommentsModule } from './modules/comments/comments.module';
 import { RequestContextService } from './common/services/request-context.service';
+import { MailModule } from './modules/mail/mail.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RequestContextService } from './common/services/request-context.service
     AuthModule,
     CollaboratorsModule,
     CommentsModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService, RequestContextService],
