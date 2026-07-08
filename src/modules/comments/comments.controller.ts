@@ -15,6 +15,7 @@ import {
 import { ValidateResourcesIdsInterceptor } from 'src/common/interceptors/validate-resources-ids.interceptor';
 import { CommentsService } from './comments.service';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
@@ -34,6 +35,7 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 })
 @UseInterceptors(ValidateResourcesIdsInterceptor)
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth('jwt')
 export class CommentsController {
   constructor(private readonly commentService: CommentsService) {}
 

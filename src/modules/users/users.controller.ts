@@ -19,7 +19,7 @@ import {
   UserFullDto,
   UserListItemDto,
 } from './user.dto';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RequestContextService } from 'src/common/services/request-context.service';
 
@@ -28,6 +28,7 @@ import { RequestContextService } from 'src/common/services/request-context.servi
   path: 'users',
 })
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth('jwt')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 

@@ -18,7 +18,7 @@ import {
   ProjectListItemDTO,
   ProjectRequestDTO,
 } from './projects.dto';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { ValidateResourcesIds } from 'src/common/decorators/validate-resources-ids.decorator';
 import { ValidateResourcesIdsInterceptor } from 'src/common/interceptors/validate-resources-ids.interceptor';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
@@ -29,6 +29,7 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 })
 @UseInterceptors(ValidateResourcesIdsInterceptor)
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth('jwt')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 

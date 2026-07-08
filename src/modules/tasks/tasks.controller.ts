@@ -17,6 +17,7 @@ import { TaskDTO } from './tasks.dto';
 import { ValidateResourcesIdsInterceptor } from 'src/common/interceptors/validate-resources-ids.interceptor';
 import { ValidateResourcesIds } from 'src/common/decorators/validate-resources-ids.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller({
   version: '1',
@@ -24,6 +25,7 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 })
 @UseInterceptors(ValidateResourcesIdsInterceptor)
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth('jwt')
 export class TasksController {
   constructor(private readonly taskService: TasksService) {}
 

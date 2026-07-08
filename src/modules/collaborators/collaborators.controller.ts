@@ -13,13 +13,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiResponse,
 } from '@nestjs/swagger';
 import { ValidateResourcesIds } from 'src/common/decorators/validate-resources-ids.decorator';
 import { ValidateResourcesIdsInterceptor } from 'src/common/interceptors/validate-resources-ids.interceptor';
-import { PrismaService } from 'src/prisma.service';
 import {
   AddCollaboratorDto,
   CollaboratorListItemDto,
@@ -34,6 +34,7 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 })
 @UseInterceptors(ValidateResourcesIdsInterceptor)
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth('jwt')
 export class CollaboratorsController {
   constructor(private readonly collaboratorService: CollaboratorsService) {}
 
