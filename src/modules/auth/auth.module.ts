@@ -8,6 +8,7 @@ import { PassportModule } from '@nestjs/passport';
 import 'dotenv/config';
 import { JwtStrategy } from './jwt.strategy';
 import { MailService } from '../mail/mail.service';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MailService } from '../mail/mail.service';
         expiresIn: '1d',
       },
     }),
+    MailModule,
   ],
   controllers: [AuthController],
   providers: [
