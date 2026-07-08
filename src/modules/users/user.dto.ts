@@ -62,6 +62,8 @@ export class UpdateUserDto {
   @IsEnum(Role)
   @IsOptional()
   role?: Role = Role.ADMIN;
+
+  avatar?: string;
 }
 
 export class UserListItemDto {

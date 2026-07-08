@@ -10,7 +10,9 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
@@ -19,9 +21,16 @@ import {
   UserFullDto,
   UserListItemDto,
 } from './user.dto';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RequestContextService } from 'src/common/services/request-context.service';
+import { CloudinaryService } from 'src/common/services/cloudinary/cloudinary.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller({
   version: '1',
@@ -30,7 +39,11 @@ import { RequestContextService } from 'src/common/services/request-context.servi
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('jwt')
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(
+    private readonly userService: UsersService,
+    private readonly cloudinaryService: CloudinaryService,
+    private readonly requestContext: RequestContextService,
+  ) {}
 
   @Get()
   @ApiResponse({ type: [UserListItemDto] })
@@ -73,5 +86,45 @@ export class UsersController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Param('userId', ParseUUIDPipe) userId: string) {
     return await this.userService.delete(userId);
+  }
+
+  @Post('/avatar')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Upload avatar uploaded successfully',
+    type: UserListItemDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid data',
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @HttpCode(HttpStatus.OK)
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadAvatar(@UploadedFile() file: Express.Multer.File) {
+    const user = this.requestContext.getUser();
+    console.log(user);
+
+    const response = await this.cloudinaryService.upload(file, user.id);
+
+    // const user = await this.userService.findById(user.id);
+
+    await this.userService.update(user.id, {
+      ...user,
+      avatar: response.url,
+    });
+
+    return this.userService.findById(user.id);
   }
 }

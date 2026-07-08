@@ -10,6 +10,7 @@ import { CollaboratorsModule } from './modules/collaborators/collaborators.modul
 import { CommentsModule } from './modules/comments/comments.module';
 import { RequestContextService } from './common/services/request-context.service';
 import { MailModule } from './modules/mail/mail.module';
+import { CloudinaryService } from './common/services/cloudinary/cloudinary.service';
 
 @Module({
   imports: [
@@ -22,6 +23,11 @@ import { MailModule } from './modules/mail/mail.module';
     MailModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService, RequestContextService],
+  providers: [
+    AppService,
+    PrismaService,
+    RequestContextService,
+    CloudinaryService,
+  ],
 })
 export class AppModule {}
